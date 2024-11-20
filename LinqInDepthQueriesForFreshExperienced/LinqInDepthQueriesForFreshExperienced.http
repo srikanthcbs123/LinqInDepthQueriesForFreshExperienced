@@ -1,0 +1,6 @@
+@LinqInDepthQueriesForFreshExperienced_HostAddress = http://localhost:5270
+
+GET {{LinqInDepthQueriesForFreshExperienced_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
