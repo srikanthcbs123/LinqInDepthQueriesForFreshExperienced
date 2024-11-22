@@ -54,12 +54,14 @@ namespace LinqInDepthQueriesForFreshExperienced.Controllers
             //SqlQuery:     //select * from  Employees where City='London'
             //LAMDA EXPRESSION USING LINQ query:
             var result = _northwind_DBContext.Employees.Where(a => a.City == "London").ToList();//=>we called lamda opertor
+
                                                                                                 //(parameters) => expression
                                                                                                 //here expression is a anoymous function.these functions we used in lamda expressions
             var jsonSettings = new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
             //It converts your data to jsonformat
             var convertedData = JsonConvert.SerializeObject(result);
             return StatusCode(StatusCodes.Status200OK, convertedData);
+
             //linq query         // var highEarners = context.Employees.Where(e => e.Salary > 50000).ToList(); 
             // Filters employees with salary > 50,000
             //sqlquery :select * from Employees where Salary > 50000
@@ -81,6 +83,10 @@ namespace LinqInDepthQueriesForFreshExperienced.Controllers
             var convertedData = JsonConvert.SerializeObject(result);
             return StatusCode(StatusCodes.Status200OK, convertedData);
 
+
+         // var highEarners = context.Employees.Where(e => e.Salary > 50000).ToList(); 
+           // Filters employees with salary > 50,000
+
         }
         [HttpGet]
         [Route("GetEmployeesDatawith_ReuiredColumnsonlyShowing")]
@@ -88,8 +94,10 @@ namespace LinqInDepthQueriesForFreshExperienced.Controllers
         {//here we are fetchingall the data and showing only one column only.
          //normal linq query:var result = from a in _northwind_DBContext.Employees select new { EmployeeFullName = a.FirstName + a.LastName };
          //SqlQuery Format:select FirstName+LastName as 'EmployeeFullName' from  Employees 
+
          //Lamda Expression With Linq query:Thebelow LinQ Quer we will get therequired colmns only.
             var result = _northwind_DBContext.Employees.Select(e => new { e.FirstName, e.LastName, e.Address, e.City }).ToList();
+
             var jsonSettings = new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
             //It converts your data to jsonformat
             var convertedData = JsonConvert.SerializeObject(result);
@@ -124,6 +132,7 @@ namespace LinqInDepthQueriesForFreshExperienced.Controllers
                var orderByDescendingResult = from s in lststudentsObj
                                              orderby s.StudentName descending
                                              select s;
+
             //Here  select s   take The total records.
             //In Lamda Expesions same thing can achieve by .ToList() Predfiend mehod.
             */
@@ -138,17 +147,20 @@ namespace LinqInDepthQueriesForFreshExperienced.Controllers
 
             var orderByonMultipleColumns = _northwind_DBContext.Employees.OrderBy(e => e.FirstName).ThenBy(e => e.LastName).ToList();
 
+
             //It converts your data to jsonformat
             var convertedData = JsonConvert.SerializeObject(orderByDescendingResult);
             return StatusCode(StatusCodes.Status200OK, convertedData);
 
         }
         [HttpGet]
+
         [Route("GroupByusageWithOrginalSingleTable")]
         public async Task<IActionResult> GroupByusage()
         {
 
             //Sql Groupby Query:select   CompanyName as CompanyName,Count(*) as Count     from Customers group by CompanyName
+
             var groupedCompanyNameData = _northwind_DBContext.Customers.GroupBy(s => s.CompanyName)
                                      .Select(g => new { CompanyName = g.Key, CompanyName1 = g.ToList() });
             //It converts your data to jsonformat
@@ -156,6 +168,7 @@ namespace LinqInDepthQueriesForFreshExperienced.Controllers
             return StatusCode(StatusCodes.Status200OK, convertedData);
 
         }
+
         [HttpGet]
         [Route("Include usage ")]
         public async Task<IActionResult> IncludeUsage()
@@ -291,4 +304,8 @@ namespace LinqInDepthQueriesForFreshExperienced.Controllers
     }
 
 }
+
+
+    
+
 
